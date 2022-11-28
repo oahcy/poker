@@ -49,8 +49,8 @@ bool GetTexasMaxHands(const std::vector<int> &allHands,
                       std::vector<int> &maxHands, uint32_t &maxValue) {
   std::vector<int> orders = {0, 1, 2, 3, 4, 5, 6};
   assert(allHands.size() == 7);
-  std::vector<std::vector<int>> allHandComb;
-  allHandComb = combination(orders, HAND_COUNTS);
+  assert(HAND_COUNTS == 5);
+  static std::vector<std::vector<int>> allHandComb = combination(orders, HAND_COUNTS);
 
   uint32_t tempMaxValue = 0;
   std::vector<int> tempMaxHands;

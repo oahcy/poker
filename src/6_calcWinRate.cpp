@@ -57,5 +57,6 @@ int GetWinRateAtRiver(const std::vector<int>& self, const std::vector<int>& boar
       winCounts++;
     }
   }
-  return winCounts / 10;
+  auto percent = winCounts / (RANDOMTIMES / 100);
+  return percent;
 }
