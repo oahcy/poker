@@ -38,8 +38,7 @@ typedef struct PokerHandS{
     uint16_t spades;
 }PokerHand, *pPokerHand;
 
-std::string
-helloWorld();
+std::string helloWorld();
 std::string sort(const std::vector<int>& input);
 HandType GetHandType(const std::vector<int> &hexHands);
 HandType GetJokerHandType(const std::vector<int>& input);
