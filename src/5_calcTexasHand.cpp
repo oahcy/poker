@@ -82,6 +82,6 @@ HandType GetTexasHandType(const std::vector<int> &self,
   if (maxValue > 0) {
     return GetHandType(maxHands);
   }
-  assert(true);
+  assert(false);
   return HandType::Undefined;
 }

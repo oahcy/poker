@@ -4,7 +4,7 @@
 
 std::string ConvertTypeToString(HandType t) {
   std::vector<std::string> types = {"RoyalStraightFlush", "StraightFlush", \
-  "Quads", "FullHouse", "Flush", "Straight", "Trips", "TwoPair", "Pair", "NoPair", "Joker"};
+  "Quads", "FullHouse", "Flush", "Straight", "Trips", "TwoPair", "Pair", "NoPair", "Joker", "undefined"};
   return types[static_cast<int>(t) - 1];
 }
 
@@ -24,6 +24,8 @@ std::string ConvertToString(int hexHand) {
     } else if ((rank >= 9) && (rank <= 15)) {
       result += ranks[(rank - 9)];
     }
+  } else {
+    result = "error hand";
   }
   return result;
 }
@@ -62,15 +64,15 @@ bool ConvertHand(PokerHand& hand, int hexHand) {
     }
     return ret;
 }
-
+//返回值为转换失败的数目
 int ConvertHand(PokerHand& hand, const std::vector<int> &hexHands) {
-    int unConverts = 0;
+    int convertFailedCounts = 0;
     for (auto const &hexHand : hexHands) {
         if (!ConvertHand(hand, hexHand)) {
-            unConverts ++;
+            convertFailedCounts ++;
         }
     }
-    return unConverts;
+    return convertFailedCounts;
 }
 
 HandType GetHandType(const PokerHand &pokerHand) {

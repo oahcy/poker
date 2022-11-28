@@ -138,6 +138,6 @@ HandType GetJokerHandType(const std::vector<int>& input) {
         return HandType::Trips;
     }
     //不会走到这里
-    assert(true);
+    assert(false);
     return t;
 }

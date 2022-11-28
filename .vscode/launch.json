@@ -8,7 +8,7 @@
             "name": "(lldb) 启动",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/debug/pppoker",
+            "program": "${workspaceFolder}/debug/poker",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
