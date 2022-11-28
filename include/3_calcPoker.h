@@ -20,4 +20,5 @@
 
 std::string ConvertToString(int hexHand);
 std::string ConvertTypeToString(HandType t);
+int ConvertHand(PokerHand& hand, const std::vector<int> &hexHands);
 void printPoker(const std::vector<int> &v);

@@ -11,6 +11,10 @@
 #define GET_RANK(x) ((x & 0xff) - 2)
 #define GET_RAND_BIT(x) (1 << GET_RANK(x))
 
+#define HAND_COUNTS 5
+#define SUIT_COUNTS 4
+#define RANK_COUNTS 13
+
 enum HandType {
     RoyalStraightFlush = 1,
     StraightFlush,
@@ -22,6 +26,8 @@ enum HandType {
     TwoPair,
     Pair,
     NoPair,
+    Joker,
+    Undefined,
 };
 
 typedef struct PokerHandS{
@@ -35,5 +41,7 @@ typedef struct PokerHandS{
 std::string
 helloWorld();
 std::string sort(const std::vector<int>& input);
-int ConvertHand(PokerHand& hand, const std::vector<int> &hexHands);
-HandType GetHandType(const PokerHand &pokerHand);
+HandType GetHandType(const std::vector<int> &hexHands);
+HandType GetJokerHandType(const std::vector<int>& input);
+HandType GetTexasHandType(const std::vector<int>& self, const std::vector<int>& board);
+int GetWinRateAtRiver(const std::vector<int>& self, const std::vector<int>& board);

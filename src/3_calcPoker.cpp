@@ -1,10 +1,10 @@
 #include "texas.h"
 #include "utils.h"
-#include "calcPoker.h"
+#include "3_calcPoker.h"
 
 std::string ConvertTypeToString(HandType t) {
   std::vector<std::string> types = {"RoyalStraightFlush", "StraightFlush", \
-  "Quads", "FullHouse", "Flush", "Straight", "Trips", "TwoPair", "Pair", "NoPair"};
+  "Quads", "FullHouse", "Flush", "Straight", "Trips", "TwoPair", "Pair", "NoPair", "Joker"};
   return types[static_cast<int>(t) - 1];
 }
 
@@ -42,6 +42,7 @@ void printPoker(const std::vector<int> &v) {
 bool ConvertHand(PokerHand& hand, int hexHand) {
     int suit = GET_SUIT(hexHand);
     uint16_t rank = GET_RAND_BIT(hexHand);
+    bool ret = true;
     switch (suit)
     {
     case SUIT_DIAMONDS:
@@ -57,9 +58,9 @@ bool ConvertHand(PokerHand& hand, int hexHand) {
         hand.spades |= rank;
         break;
     default:
-        assert(true); // no this suit
+        ret = false; //大小王
     }
-    return true;
+    return ret;
 }
 
 int ConvertHand(PokerHand& hand, const std::vector<int> &hexHands) {
@@ -83,10 +84,7 @@ HandType GetHandType(const PokerHand &pokerHand) {
         isStraight = true;
     }
     //同花
-    int suitCounts = 0;
-    suitCounts = (pokerHand.hearts == 0 ? 0 : 1) + (pokerHand.clubs == 0 ? 0 : 1) \
-    + (pokerHand.spades == 0 ? 0 : 1) + (pokerHand.diamonds == 0 ? 0 : 1);
-    bool isFlush = suitCounts == 1;
+    bool isFlush = IsFlush(pokerHand);
 
     //皇家同花顺 / 同花顺
     if (isStraight && isFlush) {
@@ -148,4 +146,12 @@ HandType GetHandType(const PokerHand &pokerHand) {
     }
 
     return HandType::NoPair;
+}
+
+HandType GetHandType(const std::vector<int> &hexHands) {
+  PokerHand pokerHand;
+  if (ConvertHand(pokerHand, hexHands) == 0) {
+    return GetHandType(pokerHand);
+  }
+  return HandType::Joker;
 }

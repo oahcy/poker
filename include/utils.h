@@ -29,3 +29,11 @@ uint16_t GetLastOneBit(uint16_t num) {
     }
     return ret;
 }
+
+inline bool IsFlush(const PokerHand &pokerHand) {
+  int suitCounts = 0;
+  suitCounts =
+      (pokerHand.hearts == 0 ? 0 : 1) + (pokerHand.clubs == 0 ? 0 : 1) +
+      (pokerHand.spades == 0 ? 0 : 1) + (pokerHand.diamonds == 0 ? 0 : 1);
+  return suitCounts == 1;
+}
