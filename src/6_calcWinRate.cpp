@@ -16,11 +16,10 @@ std::vector<int> GetTwoRandNumber(int cards) {
   std::vector<int> retRand;
   static std::default_random_engine e(time(0));
   std::uniform_int_distribution<unsigned> u(0, cards - 1);
-  std::uniform_int_distribution<unsigned> u2(0, cards - 2);
   int rand1 = u(e);
-  int rand2 = u2(e);
-  if (rand2 >= rand1) {
-    rand2 ++;
+  int rand2 = u(e);
+  while (rand2 == rand1) {
+    rand2 = u(e);
   }
   assert(rand1 != rand2);
   assert(rand1 < cards);

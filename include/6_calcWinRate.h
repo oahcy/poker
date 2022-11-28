@@ -1,3 +1,3 @@
 #pragma once
 
-#define RANDOMTIMES 1000
+#define RANDOMTIMES 5000

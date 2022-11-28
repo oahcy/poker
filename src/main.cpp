@@ -57,20 +57,20 @@ std::vector<std::vector<int> > s_test4{
 
 std::vector<std::vector<int> > s_test5_self{
     {0x104,0x30e},
-    {0x20a,0x10d},
+    {0x305,0x10d},
 };
 
 std::vector<std::vector<int> > s_test5_board{
-    {0x304,0x20e, 0x109, 0x108, 0x203},
-    {0x20b,0x10c, 0x10e, 0x409, 0x302},
+    {0x307,0x205, 0x109, 0x108, 0x203},
+    {0x202,0x105, 0x10e, 0x403, 0x405},
 };
 
 int main()
 {
-    std::cout << "test 1, hello world." << std::endl;
+    std::cout << ">>>test 1, hello world." << std::endl;
     std::cout << helloWorld() << std::endl;
 
-    std::cout << "test 2, sort." << std::endl;
+    std::cout << ">>>test 2, sort." << std::endl;
     for (int i = 0; i < s_test2.size(); i++)
     {
         auto const input = s_test2[i];
@@ -78,7 +78,7 @@ int main()
         std::cout << " sort ->  " << sort(input) << std::endl;
     }
 
-    std::cout << "test 3, calculate hand type." << std::endl;
+    std::cout << ">>>test 3, calculate hand type." << std::endl;
     for (int i = 0; i < s_test3.size(); i++) {
       auto const input = s_test3[i];
       printPoker(input);
@@ -87,7 +87,7 @@ int main()
                 << std::endl;
     }
 
-    std::cout << "test 4, calculate joker hand type." << std::endl;
+    std::cout << ">>>test 4, calculate joker hand type." << std::endl;
     for (int i = 0; i < s_test4.size(); i++) {
       auto const input = s_test4[i];
       printPoker(input);
@@ -96,7 +96,7 @@ int main()
                 << std::endl;
     }
 
-    std::cout << "test 5, calculate hand type in Texas." << std::endl;
+    std::cout << ">>>test 5, calculate hand type in Texas." << std::endl;
     for (int i = 0; i < s_test5_self.size(); i++) {
       for (int j = 0; j < s_test5_board.size(); j++) {
         auto selfCards = s_test5_self[i];
@@ -109,7 +109,7 @@ int main()
       }
     }
 
-    std::cout << "test 6, calculate win rate at river." << std::endl;
+    std::cout << ">>>test 6, calculate win rate at river." << std::endl;
     for (int i = 0; i < s_test5_self.size(); i++) {
       for (int j = 0; j < s_test5_board.size(); j++) {
         auto selfCards = s_test5_self[i];
@@ -117,7 +117,7 @@ int main()
         printPoker(selfCards);
         printPoker(boardCards);
         int rate = GetWinRateAtRiver(selfCards, boardCards);
-        std::cout << " rate ->  " << rate << std::endl;
+        std::cout << " rate ->  " << rate << "%" << std::endl;
       }
     }
     return 0;

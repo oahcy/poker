@@ -1,7 +1,10 @@
 #include "texas.h"
 #include "5_calcTexasHand.h"
+#include "3_calcPoker.h"
+#include "utils.h"
 
 #include <vector>
+#include <map>
 
 uint16_t GetTypeValue(HandType t) {
     if ((t <= HandType::NoPair) && (t >= HandType::RoyalStraightFlush)) {
@@ -12,17 +15,69 @@ uint16_t GetTypeValue(HandType t) {
     }
 }
 
+bool IsNoPair(const std::vector<int> &hands) {
+  PokerHand pokerHand;
+  if (0 == ConvertHand(pokerHand, hands)) {
+    uint16_t allRankComb = pokerHand.hearts | pokerHand.clubs | pokerHand.spades | pokerHand.diamonds;
+    int allRankCombCounts = GetOneCounts(allRankComb);
+    return (allRankCombCounts == hands.size());
+  }
+  return false;
+}
+
+bool cmp(std::pair<int, int>& a,
+         std::pair<int, int>& b) {
+    if (a.second > b.second) {
+      return true;
+    } else if (a.second == b.second) {
+      return (a.first > b.first);
+    }
+    return false;
+}
+
 uint32_t GetHandValue(const std::vector<int> &hands) {
     uint32_t value = 0;
     auto handType = GetHandType(hands);
     auto handTypeValue = GetTypeValue(handType);
-    auto sortHands = hands;
-    std::sort(sortHands.begin(), sortHands.end(), std::greater<int>());
-    value = handTypeValue;
-    for (const auto &hand : sortHands) {
-      value <<= 4;
-      value = value | (GET_RANK(hand) & 0xf);
+    std::vector<int> rankVec;
+    for (const auto &hand : hands) {
+      rankVec.push_back((GET_RANK(hand) & 0xf));
     }
+    if (IsNoPair(hands)) {
+      std::sort(rankVec.begin(), rankVec.end(), std::greater<int>());
+      //a2345 is smallest straight
+      if ((rankVec[0] == 12) && (rankVec[1] == 3) && (rankVec[2] == 2) && (rankVec[3] == 1) && (rankVec[4] == 0)) {
+        rankVec[0] = 0;
+      }
+      value = handTypeValue;
+      for (const auto &hand : rankVec) {
+        value <<= 4;
+        value = value | hand;
+      }
+      return value;
+    }
+    //calc pair
+    std::map<int, int> mapSortHands;
+    for (const auto &hand : rankVec) {
+      auto findIter = mapSortHands.find(hand);
+      if (findIter == mapSortHands.end()) {
+        mapSortHands.insert(std::pair<int, int>(hand, 1));
+      } else {
+        findIter->second++;
+      }
+    }
+
+    std::vector<std::pair<int, int>> sortMapVec;
+    for (auto& it : mapSortHands) {
+        sortMapVec.push_back(it);
+    }
+    std::sort(sortMapVec.begin(), sortMapVec.end(), cmp);
+    value = handTypeValue;
+    for (const auto &handPair : sortMapVec) {
+      value <<= 4;
+      value = value | handPair.first;
+    }
+    value <<= (4 * (HAND_COUNTS - sortMapVec.size()));
     return value;
 }
 
