@@ -102,6 +102,7 @@ int main()
         auto selfCards = s_test5_self[i];
         auto boardCards = s_test5_board[j];
         printPoker(selfCards);
+        std::cout << ", board: ";
         printPoker(boardCards);
         HandType t = GetTexasHandType(selfCards, boardCards);
         std::cout << " type ->  " << t << ":" << ConvertTypeToString(t)
@@ -115,6 +116,7 @@ int main()
         auto selfCards = s_test5_self[i];
         auto boardCards = s_test5_board[j];
         printPoker(selfCards);
+        std::cout << ", board: ";
         printPoker(boardCards);
         int rate = GetWinRateAtRiver(selfCards, boardCards);
         std::cout << " rate ->  " << rate << "%" << std::endl;
